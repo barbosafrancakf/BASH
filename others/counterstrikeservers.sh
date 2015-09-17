@@ -72,10 +72,10 @@ function csgo()
 	echo -e "Enter server ${RED}NA${Blue}ME${STD} to ${Brown}Counter Strike Global Offensive ${STD}Server: "
 	read -p "->" name
 	touch /opt/Steam/$port/csgo/cfg/server.cfg
-	echo 'hostname "$name" ' > /opt/Steam/$port/csgo/cfg/server.cfg
+	echo "hostname '$name' " > /opt/Steam/$port/csgo/cfg/server.cfg
 	echo -e "Enter server ${RED}PASS${Blue}W${Yellow}ORD${STD} to ${Brown}Counter Strike Global Offensive ${STD}Server: "
 	read -p "->" password
-	echo 'sv_password "$password" ' >> /opt/Steam/$port/csgo/cfg/server.cfg
+	echo "sv_password '$password' " >> /opt/Steam/$port/csgo/cfg/server.cfg
 	echo -e "${Green}[CSGO]${STD} Starting ${Brown}Counter Strike Global Offensive ${STD}Server..."
 	sleep 1
 	screen -S CSGO_$port /opt/Steam/$port/./srcds_run -game csgo -console -usercon -tickrate 128 +game_type 0 +net_public_adr $ip +ip $ip -port $port +game_mode 1 +mapgroup mg_bomb +map de_dust2
@@ -114,10 +114,10 @@ function cs()
 	cat /dev/null > /opt/Steam/CS/$port/cstrike/server.cfg
 	touch ~/opt/Steam/CS/$port/cstrike/listip.cfg
 	touch ~/opt/Steam/CS/$port/cstrike/banned.cfg
-	echo 'hostname "$name" ' >> /opt/Steam/CS/$port/cstrike/server.cfg
+	echo "hostname '$name' " >> /opt/Steam/CS/$port/cstrike/server.cfg
 	echo -e "Enter server ${RED}PASS${Blue}W${Yellow}ORD${STD} to ${Brown}Counter Strike 1.6 ${STD}Server: "
 	read -p "->" password
-	echo 'sv_password "$password" ' >> /opt/Steam/$port/cs/cfg/server.cfg
+	echo "sv_password '$password' " >> /opt/Steam/$port/cs/cfg/server.cfg
 	echo -e "${Green}[CSGO]${STD} Starting ${Brown}Counter Strike 1.6 ${STD}Server..."
 	sleep 1
 	screen -S CSGO_$port /opt/Steam/$port/./srcds_run -game csgo -console -usercon -tickrate 128 +game_type 0 +net_public_adr $ip +ip $ip -port $port +game_mode 1 +mapgroup mg_bomb +map de_dust2
