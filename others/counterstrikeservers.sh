@@ -71,10 +71,13 @@ function csgo()
 	bash /opt/Steam/steamcmd.sh +login anonymous +force_install_dir /opt/Steam/$port +app_update 740 validate +quit
 	echo -e "Enter server ${RED}NA${Blue}ME${STD} to ${Brown}Counter Strike Global Offensive ${STD}Server: "
 	read -p "->" name
-	touch /opt/Steam/$port/csgo/cfg/server.cfg
-	echo "hostname '$name' " > /opt/Steam/$port/csgo/cfg/server.cfg
+	echo -e "Enter server ${RED}RC${Blue}ON${STD} to ${Brown}Counter Strike Global Offensive ${STD}Server: "
+	read -p "->" rcon
 	echo -e "Enter server ${RED}PASS${Blue}W${Yellow}ORD${STD} to ${Brown}Counter Strike Global Offensive ${STD}Server: "
 	read -p "->" password
+	touch /opt/Steam/$port/csgo/cfg/server.cfg
+	echo "hostname '$name' " > /opt/Steam/$port/csgo/cfg/server.cfg
+	echo "hostname '$rcon' " > /opt/Steam/$port/csgo/cfg/server.cfg
 	echo "sv_password '$password' " >> /opt/Steam/$port/csgo/cfg/server.cfg
 	echo -e "${Green}[CSGO]${STD} Starting ${Brown}Counter Strike Global Offensive ${STD}Server..."
 	sleep 1
