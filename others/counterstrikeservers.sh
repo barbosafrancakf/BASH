@@ -123,7 +123,7 @@ function cs()
 	echo "sv_password '$password' " >> /opt/Steam/$port/cs/cfg/server.cfg
 	echo -e "${Green}[CSGO]${STD} Starting ${Brown}Counter Strike 1.6 ${STD}Server..."
 	sleep 1
-	screen -S CSGO_$port /opt/Steam/$port/./srcds_run -game csgo -console -usercon -tickrate 128 +game_type 0 +net_public_adr $ip +ip $ip -port $port +game_mode 1 +mapgroup mg_bomb +map de_dust2
+	screen -S CSGO_$port /opt/Steam/$port/./srcds_run -game csgo -console -autoupdate -usercon -tickrate 128 +game_type 0 +net_public_adr $ip +ip $ip -port $port +game_mode 1 +mapgroup mg_bomb +map de_dust2
 	echo -e "Finally, Now you can connect typing: connect ${RED}$ip${STD}:${Green}$port${STD};password ${blue}$password"
 	
 }
