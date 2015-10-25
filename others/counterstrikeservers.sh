@@ -109,8 +109,10 @@ function cs()
 	mkdir /opt/Steam
 	wget http://media.steampowered.com/installer/steamcmd_linux.tar.gz -O /opt/Steam/steam.tar.gz
 	tar -zxvf /opt/Steam/steam.tar.gz -C /opt/Steam
-	echo -e "Hello, Enter server ${Green}PORT${STD} to set up your ${Brown}Counter Strike Global Offensive ${STD}Server: "  
-	read -p "->" port	
+	echo -e "Hello, Enter server ${Green}PORT${STD} to set up your ${Brown}Counter Strike ${STD}Server: "  
+	read -p "->" port
+	echo -e "Enter server ${Green}MAX PLAYERS${STD}: "  
+	read -p "->" maxplayers
 	bash /opt/Steam/steamcmd.sh +login anonymous +force_install_dir /opt/Steam/CS/$port +app_set_config 90 mod cstrike +app_update 90 validate +quit
 	echo -e "Enter server ${RED}NA${Blue}ME${STD} to ${Brown}Counter Strike 1.6 ${STD}Server: "
 	read -p "->" name
@@ -123,7 +125,7 @@ function cs()
 	echo "sv_password '$password' " >> /opt/Steam/$port/cs/cfg/server.cfg
 	echo -e "${Green}[CSGO]${STD} Starting ${Brown}Counter Strike 1.6 ${STD}Server..."
 	sleep 1
-	screen -S CSGO_$port /opt/Steam/$port/./srcds_run -game csgo -console -autoupdate -usercon -tickrate 128 +game_type 0 +net_public_adr $ip +ip $ip -port $port +game_mode 1 +mapgroup mg_bomb +map de_dust2
+	screen -S CSGO_$port /opt/Steam/$port/./srcds_run -game cstrike -autoupdate -pingboost 2 -port $port +maxplayers $maxplayers +map de_dust2
 	echo -e "Finally, Now you can connect typing: connect ${RED}$ip${STD}:${Green}$port${STD};password ${blue}$password"
 	
 }
