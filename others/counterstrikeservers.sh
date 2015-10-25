@@ -113,13 +113,13 @@ function cs()
 	read -p "->" port
 	echo -e "Enter server ${Green}MAX PLAYERS${STD}: "  
 	read -p "->" maxplayers
-	bash /opt/Steam/steamcmd.sh +login anonymous +force_install_dir /opt/Steam/CS/$port +app_set_config 90 mod cstrike +app_update 90 validate +quit
+	bash /opt/Steam/steamcmd.sh +login anonymous +force_install_dir /opt/Steam/$port +app_set_config 90 mod cstrike +app_update 90 validate +quit
 	echo -e "Enter server ${RED}NA${Blue}ME${STD} to ${Brown}Counter Strike 1.6 ${STD}Server: "
 	read -p "->" name
-	cat /dev/null > /opt/Steam/CS/$port/cstrike/server.cfg
-	touch ~/opt/Steam/CS/$port/cstrike/listip.cfg
-	touch ~/opt/Steam/CS/$port/cstrike/banned.cfg
-	echo "hostname '$name' " >> /opt/Steam/CS/$port/cstrike/server.cfg
+	cat /dev/null > /opt/Steam/$port/cstrike/server.cfg
+	touch ~/opt/Steam/$port/cstrike/listip.cfg
+	touch ~/opt/Steam/$port/cstrike/banned.cfg
+	echo "hostname '$name' " >> /opt/Steam/$port/cstrike/server.cfg
 	echo -e "Enter server ${RED}PASS${Blue}W${Yellow}ORD${STD} to ${Brown}Counter Strike 1.6 ${STD}Server: "
 	read -p "->" password
 	echo "sv_password '$password' " >> /opt/Steam/$port/cs/cfg/server.cfg
