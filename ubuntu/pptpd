@@ -21,7 +21,7 @@ apt-get -y update &> /dev/null
 apt-get install curl &> /dev/null
 echo -e "${Green}[UPDATES]${STD} Installing LINUX ${Green}UP${RED}DA${STD}TES..."
 apt-get -y upgrade &> /dev/null
-yum -y install pptpd
+apt-get -y install pptpd
 echo -e "${STD}You're running this script on ${Brown}$operatingsystem $operatingsystemrelease, $bits bits ${STD}"
 sleep 0.25
 echo -e "${Green}[VPN]${STD} Installing ${Green}PP${RED}TP${STD}..."
