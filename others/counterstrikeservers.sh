@@ -1,8 +1,8 @@
 #! /bin/bash
-author="HOSTTUGA.NET";RED="\033[31m";Yellow="\033[33m";BWhite="\033[1m";Green="\e[32m";Blue="\033[0;36m";STD="\033[0;0;39m";Brown="\033[0;33m";White="\e[4m";date=$(date +"%m %B, %Y %H:%M %p");ip=$(curl -s http://ifconfig.me);scriptname="lynxmonitor";servername="$(hostname)";operatingsystem="$(lsb_release -si)";operatingsystemrelease="$(lsb_release -sr)";bits="$(uname -m | sed "s/x86_//;s/i[3-6]86/32/")";
+RED="\033[31m";Green="\e[32m";STD="\033[0;0;39m";Brown="\033[0;33m";Green="\e[32m";ip=$(hostname  -I | cut -f1 -d' ');operatingsystem="$(lsb_release -si)";operatingsystemrelease="$(lsb_release -sr)";bits="$(uname -m | sed "s/x86_//;s/i[3-6]86/32/")";
 menu() 
 {
-    clear                                                                                                                                         
+    clear
     echo -e "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
     echo -e "LYNX${Green}MONI${RED}TOR${STD} - ${Blue}D E F A U L T  S C R I P T ${STD}"
     echo -e "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
@@ -18,12 +18,12 @@ menu()
 rs()
 {
     local choice
-    read -p "Please, Enter choice [ 1 - 2] " choice
+    read -p "Please, Enter choice [ 1 - 3] " choice
               case $choice in
                       1) csgo;;
 					  2) cs;;
                       3) quit;;
-       *) echo -e "${RED}Error, please insert only numeric values [ 1 - 2] ${STD}" && sleep 1
+       *) echo -e "${RED}Error, please insert only numeric values [ 1 - 3] ${STD}" && sleep 1
     esac
 }
   
@@ -44,90 +44,95 @@ function quit()
 }
 function csgo()
 {
-    #bash /etc/lynxmonitor/gameservers/$operatingsystem/default.sh
 	clear
-	echo -e "${Green}[CSGO]${STD} Reading C${Green}SG${RED}O${STD} files..."
-	echo -e "${Green}[CSGO]${STD} Listing LINUX ${Green}UP${RED}DA${STD}TES..."
+	echo -e "${Green}[UPDATE]${STD} Reading C${Green}SG${RED}O${STD} files..."
+	echo -e "${Green}[UPDATE]${STD} Listing LINUX ${Green}UP${RED}DA${STD}TES..."
     apt-get -y update &> /dev/null
-    echo -e "${Green}[CSGO]${STD} Installing LINUX ${Green}UP${RED}DA${STD}TES..."
+    echo -e "${Green}[UPDATE]${STD} Installing LINUX ${Green}UP${RED}DA${STD}TES..."
     apt-get -y upgrade &> /dev/null
 	echo -e "${STD}You're running this script on ${Brown}$operatingsystem $operatingsystemrelease, $bits bits ${STD}"
     sleep 0.25
-	echo -e "${Green}[CSGO]${STD} Installing LINUX ${Green}lib32${RED}gcc${STD}..."
+	echo -e "${Green}[UPDATE]${STD} Installing LINUX ${Green}lib32${RED}gcc${STD}..."
 	apt-get -y  install lib32gcc1 libc6-i386 lib32stdc++6 &> /dev/null
-	echo -e "${Green}[CSGO]${STD} Installing LINUX ${Green}NA${RED}NO${STD}..."
+	echo -e "${Green}[UPDATE]${STD} Installing LINUX ${Green}NA${RED}NO${STD}..."
 	apt-get -y install nano &> /dev/null
-	echo -e "${Green}[CSGO]${STD} Installing LINUX ${Green}SCRE${RED}EN${STD}..."
+	echo -e "${Green}[UPDATE]${STD} Installing LINUX ${Green}SCRE${RED}EN${STD}..."
     apt-get -y install screen &> /dev/null
-	echo -e "${Green}[CSGO]${STD} Installing LINUX ${Green}i${RED}386${STD} architecture..."
+	echo -e "${Green}[UPDATE]${STD} Installing LINUX ${Green}i${RED}386${STD} architecture..."
 	dpkg --add-architecture i386
-	echo -e "${Green}[CSGO]${STD} Listing LINUX ${Green}UP${RED}DA${STD}TES..."
+	echo -e "${Green}[UPDATE]${STD} Listing LINUX ${Green}UP${RED}DA${STD}TES..."
     apt-get -y update &> /dev/null
 	mkdir /opt/Steam
 	wget http://media.steampowered.com/installer/steamcmd_linux.tar.gz -O /opt/Steam/steam.tar.gz
 	tar -zxvf /opt/Steam/steam.tar.gz -C /opt/Steam
-	echo -e "Hello, Enter server ${Green}PORT${STD} to set up your ${Brown}Counter Strike Global Offensive ${STD}Server: "  
-	read -p "->" port	
-	bash /opt/Steam/steamcmd.sh +login anonymous +force_install_dir /opt/Steam/$port +app_update 740 validate +quit
+    echo -e "Enter server ${Green}PORT${STD} to run up your ${Brown}Counter Strike ${STD}Server: "
+		read -p "->" port
 	echo -e "Enter server ${RED}NA${Blue}ME${STD} to ${Brown}Counter Strike Global Offensive ${STD}Server: "
-	read -p "->" name
+		read -p "->" name
 	echo -e "Enter server ${RED}RC${Blue}ON${STD} to ${Brown}Counter Strike Global Offensive ${STD}Server: "
-	read -p "->" rcon
+		read -p "->" rcon
 	echo -e "Enter server ${RED}PASS${Blue}W${Yellow}ORD${STD} to ${Brown}Counter Strike Global Offensive ${STD}Server: "
-	read -p "->" password
+		read -s -p "->" password
+
+	bash /opt/Steam/steamcmd.sh +login anonymous +force_install_dir /opt/Steam/$port +app_update 740 validate +quit
 	touch /opt/Steam/$port/csgo/cfg/server.cfg
+
 	echo "hostname '$name' " > /opt/Steam/$port/csgo/cfg/server.cfg
+	echo "rcon_password '$rcon' " >> /opt/Steam/$port/csgo/cfg/server.cfg
 	echo "hostname '$rcon' " > /opt/Steam/$port/csgo/cfg/server.cfg
 	echo "sv_password '$password' " >> /opt/Steam/$port/csgo/cfg/server.cfg
 	echo -e "${Green}[CSGO]${STD} Starting ${Brown}Counter Strike Global Offensive ${STD}Server..."
 	sleep 1
 	screen -S CSGO_$port /opt/Steam/$port/./srcds_run -game csgo -console -usercon -tickrate 128 +game_type 0 +net_public_adr $ip +ip $ip -port $port +game_mode 1 +mapgroup mg_bomb +map de_dust2
-	echo -e "Finally, Now you can connect typing: connect ${RED}$ip${STD}:${Green}$port${STD};password ${blue}$password"
-	
+	echo -e "connect ${RED}$ip${STD}:${Green}$port${STD};password ${blue}$password"	
 }
 function cs()
 {
-    #bash /etc/lynxmonitor/gameservers/$operatingsystem/default.sh
 	clear
-	echo -e "${Green}[CS]${STD} Reading C${Green}SG${RED}O${STD} files..."
-	echo -e "${Green}[CS]${STD} Listing LINUX ${Green}UP${RED}DA${STD}TES..."
+    echo -e "${Green}[UPDATE]${STD} Reading C${Green}SG${RED}O${STD} files..."
+	echo -e "${Green}[UPDATE]${STD} Listing LINUX ${Green}UP${RED}DA${STD}TES..."
     apt-get -y update &> /dev/null
-    echo -e "${Green}[CS]${STD} Installing LINUX ${Green}UP${RED}DA${STD}TES..."
+    echo -e "${Green}[UPDATE]${STD} Installing LINUX ${Green}UP${RED}DA${STD}TES..."
     apt-get -y upgrade &> /dev/null
 	echo -e "${STD}You're running this script on ${Brown}$operatingsystem $operatingsystemrelease, $bits bits ${STD}"
     sleep 0.25
-	echo -e "${Green}[CS]${STD} Installing LINUX ${Green}lib32${RED}gcc${STD}..."
+	echo -e "${Green}[UPDATE]${STD} Installing LINUX ${Green}lib32${RED}gcc${STD}..."
 	apt-get -y  install lib32gcc1 libc6-i386 lib32stdc++6 &> /dev/null
-	echo -e "${Green}[CS]${STD} Installing LINUX ${Green}NA${RED}NO${STD}..."
+	echo -e "${Green}[UPDATE]${STD} Installing LINUX ${Green}NA${RED}NO${STD}..."
 	apt-get -y install nano &> /dev/null
-	echo -e "${Green}[CS]${STD} Installing LINUX ${Green}SCRE${RED}EN${STD}..."
+	echo -e "${Green}[UPDATE]${STD} Installing LINUX ${Green}SCRE${RED}EN${STD}..."
     apt-get -y install screen &> /dev/null
-	echo -e "${Green}[CS]${STD} Installing LINUX ${Green}i${RED}386${STD} architecture..."
+	echo -e "${Green}[UPDATE]${STD} Installing LINUX ${Green}i${RED}386${STD} architecture..."
 	dpkg --add-architecture i386
-	echo -e "${Green}[CS]${STD} Listing LINUX ${Green}UP${RED}DA${STD}TES..."
+	echo -e "${Green}[UPDATE]${STD} Listing LINUX ${Green}UP${RED}DA${STD}TES..."
     apt-get -y update &> /dev/null
 	mkdir /opt/Steam
 	wget http://media.steampowered.com/installer/steamcmd_linux.tar.gz -O /opt/Steam/steam.tar.gz
 	tar -zxvf /opt/Steam/steam.tar.gz -C /opt/Steam
-	echo -e "Hello, Enter server ${Green}PORT${STD} to set up your ${Brown}Counter Strike ${STD}Server: "  
-	read -p "->" port
-	echo -e "Enter server ${Green}MAX PLAYERS${STD}: "  
-	read -p "->" maxplayers
-	bash /opt/Steam/steamcmd.sh +login anonymous +force_install_dir /opt/Steam/$port +app_set_config 90 mod cstrike +app_update 90 validate +quit
+    echo -e "Enter server ${Green}PORT${STD} to run up your ${Brown}Counter Strike ${STD}Server: "
+		read -p "->" port
 	echo -e "Enter server ${RED}NA${Blue}ME${STD} to ${Brown}Counter Strike 1.6 ${STD}Server: "
-	read -p "->" name
+		read -p "->" name
+	echo -e "Enter server ${RED}RC${Blue}ON${STD} to ${Brown}Counter Strike Global Offensive ${STD}Server: "
+		read -p "->" rcon	
+	echo -e "Enter server max ${Green}players${STD}: "  
+		read -p "->" maxplayers
+	echo -e "Enter server ${RED}PASS${Blue}W${Yellow}ORD${STD} to ${Brown}Counter Strike 1.6 ${STD}Server: "
+		read -s -p "->" password
+	
+	bash /opt/Steam/steamcmd.sh +login anonymous +force_install_dir /opt/Steam/$port +app_set_config 90 mod cstrike +app_update "90 -beta" validate +quit
 	cat /dev/null > /opt/Steam/$port/cstrike/server.cfg
 	touch ~/opt/Steam/$port/cstrike/listip.cfg
 	touch ~/opt/Steam/$port/cstrike/banned.cfg
+
 	echo "hostname '$name' " >> /opt/Steam/$port/cstrike/server.cfg
-	echo -e "Enter server ${RED}PASS${Blue}W${Yellow}ORD${STD} to ${Brown}Counter Strike 1.6 ${STD}Server: "
-	read -p "->" password
+	echo "rcon_password '$rcon' " >> /opt/Steam/$port/cstrike/server.cfg
 	echo "sv_password '$password' " >> /opt/Steam/$port/cs/cfg/server.cfg
+
 	echo -e "${Green}[CSGO]${STD} Starting ${Brown}Counter Strike 1.6 ${STD}Server..."
 	sleep 1
 	screen -S CSGO_$port /opt/Steam/$port/./srcds_run -game cstrike -autoupdate -pingboost 2 -port $port +maxplayers $maxplayers +map de_dust2
-	echo -e "Finally, Now you can connect typing: connect ${RED}$ip${STD}:${Green}$port${STD};password ${blue}$password"
-	
+	echo -e "connect ${RED}$ip${STD}:${Green}$port${STD};password ${blue}$password"	
 }
 trap '' SIGINT SIGQUIT SIGTSTP
 while true
