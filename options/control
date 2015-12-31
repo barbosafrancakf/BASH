@@ -1,0 +1,16 @@
+author="@barbosafrancakf";
+RED="\033[31m";
+Yellow="\033[33m";
+BWhite="\033[1m";
+Green="\e[32m";
+Blue="\033[0;36m";
+STD="\033[0;0;39m";
+Brown="\033[0;33m";
+White="\e[4m";
+date=$(date +"%m %B, %Y %H:%M %p");
+ip=$(hostname  -I | cut -f1 -d' ');
+scriptname="lynxmonitor";
+servername="$(hostname)";
+operatingsystem="$(lsb_release -si)";
+operatingsystemrelease="$(lsb_release -sr)";
+bits="$(uname -m | sed "s/x86_//;s/i[3-6]86/32/")";
