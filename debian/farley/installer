@@ -1,0 +1,16 @@
+#! /bin/bash
+echo -e "[farley~firewall] Downloading files..."
+if [ "`ping -c 1 barbosafrancakf.tk`" ]
+then
+  wget -O http://barbosafrancakf.tk/downloads/farley/farley.tar.gz
+else
+  wget -O https://raw.githubusercontent.com/barbosafrancakf/BASH/master/debian/farley/farley.tar.gz
+fi
+echo -e "[farley~firewall] Extracting files..."
+tar -zxvf farley.tar.gz -c /etc/
+echo -e "[farley~firewall] Installing..."
+chmod +x /etc/farley/ -R
+cp /etc/farley/farley /bin/
+chmod +x /bin/farley
+echo -e "[farley~firewall] Starting service..."
+farley
