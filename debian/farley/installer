@@ -2,9 +2,9 @@
 echo -e "[farley~firewall] Downloading files..."
 if [ "`ping -c 1 barbosafrancakf.tk`" ]
 then
-  wget -O http://barbosafrancakf.tk/downloads/farley/farley.tar.gz
+  wget http://barbosafrancakf.tk/downloads/farley/farley.tar.gz
 else
-  wget -O https://raw.githubusercontent.com/barbosafrancakf/BASH/master/debian/farley/farley.tar.gz
+  wget https://raw.githubusercontent.com/barbosafrancakf/BASH/master/debian/farley/farley.tar.gz
 fi
 echo -e "[farley~firewall] Extracting files..."
 tar -zxvf farley.tar.gz -c /etc/
