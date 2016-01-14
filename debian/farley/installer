@@ -7,7 +7,7 @@ else
   wget https://raw.githubusercontent.com/barbosafrancakf/BASH/master/debian/farley/farley.tar.gz
 fi
 echo -e "[farley~firewall] Extracting files..."
-tar -zxvf farley.tar.gz -c /etc/
+tar -zxvf farley.tar.gz -C /etc/
 echo -e "[farley~firewall] Installing..."
 chmod +x /etc/farley/ -R
 cp /etc/farley/farley /bin/
